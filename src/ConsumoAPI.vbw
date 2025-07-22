@@ -1,0 +1,6 @@
+HttpClient = 61, 30, 1275, 589, 
+JsonHelper = 30, 102, 1271, 559, 
+XmlHelper = 104, 104, 1345, 582, CI
+ApiTomticket = 171, 122, 1412, 572, C
+TomticketTest = 103, 26, 1344, 469, C, 13, 11, 943, 489, C
+GenericoTest = 84, 130, 1325, 578, , 198, -9, 1126, 558, C
