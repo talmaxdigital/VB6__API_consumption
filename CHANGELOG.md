@@ -5,6 +5,12 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.0.1] - 2025-07-28
+
+### Modificado
+
+- Suporte para enviar parâmetros no body das requisições GET
+
 ## [1.0.0] - 2025-07-28
 
 ### Adicionado

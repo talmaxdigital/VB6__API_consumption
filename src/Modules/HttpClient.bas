@@ -7,10 +7,10 @@ Option Explicit
 ' ====================================================================
 
 Private Type HTTP_CONFIG
-    BaseUrl As String
+    baseUrl As String
     DefaultHeaders As Dictionary
-    Timeout As Long
-    UserAgent As String
+    timeout As Long
+    userAgent As String
     AcceptEncoding As String
 End Type
 
@@ -33,9 +33,9 @@ Public Sub InitializeHttpClient(Optional ByVal baseUrl As String = "", _
     ' Example:
     '   InitializeHttpClient "https://api.github.com", 10000, "MeuApp/1.0"
 
-    config.BaseUrl = baseUrl
-    config.Timeout = timeout
-    config.UserAgent = userAgent
+    config.baseUrl = baseUrl
+    config.timeout = timeout
+    config.userAgent = userAgent
     config.AcceptEncoding = "gzip, deflate"
 
     Set config.DefaultHeaders = CreateJSONObject()
@@ -87,24 +87,30 @@ End Sub
 ' ====================================================================
 
 Public Function HttpGet(ByVal url As String, _
-                       Optional ByVal customHeaders As Dictionary = Nothing) As HttpResponse
+                       Optional ByVal customHeaders As Dictionary = Nothing, _
+                       Optional ByVal body As String = "") As HttpResponse
     ' Executa uma requisição GET síncrona
     '
     ' Args:
     '   url (String): URL completa ou relativa (se baseUrl configurada)
     '   customHeaders (Dictionary): Headers adicionais para esta requisição
+    '   body (String): Corpo da requisição (opcional, usado por algumas APIs)
     '
     ' Result:
     '   HttpResponse: Objeto contendo status, headers e body da resposta
     '
     ' Example:
-    '   Dim response As HttpResponse
+    '   ' GET simples sem body
     '   Set response = HttpGet("https://api.github.com/users/octocat")
-    '   If response.IsSuccess Then
-    '       Debug.Print response.Json("name")
-    '   End If
+    '
+    '   ' GET com body JSON (usado por algumas APIs como TomTicket)
+    '   Dim params As Dictionary
+    '   Set params = CreateJSONObject()
+    '   params.Add "customer_id", "12345"
+    '   params.Add "customer_type_id", "I"
+    '   Set response = HttpGet("/customer/exists", Nothing, BuildJSON(params))
 
-    Set HttpGet = ExecuteRequest("GET", url, "", customHeaders)
+    Set HttpGet = ExecuteRequest("GET", url, body, customHeaders)
 End Function
 
 Public Function HttpPost(ByVal url As String, _
@@ -183,23 +189,42 @@ End Function
 ' ====================================================================
 
 Public Function GetJson(ByVal url As String, _
-                       Optional ByVal customHeaders As Dictionary = Nothing) As Object
+                       Optional ByVal customHeaders As Dictionary = Nothing, _
+                       Optional ByVal bodyParams As Dictionary = Nothing) As Object
     ' Executa GET e retorna automaticamente o JSON parseado
     '
     ' Args:
     '   url (String): URL da API
     '   customHeaders (Dictionary): Headers adicionais
+    '   bodyParams (Dictionary): Parâmetros a serem enviados no body como JSON
     '
     ' Result:
     '   Object: Dictionary ou Collection com dados JSON parseados
     '
     ' Example:
-    '   Dim user As Object
+    '   ' GET simples
     '   Set user = GetJson("https://api.github.com/users/octocat")
-    '   Debug.Print user("name") ' Output: The Octocat
+    '
+    '   ' GET com parâmetros no body (TomTicket style)
+    '   Dim params As Dictionary
+    '   Set params = CreateJSONObject()
+    '   params.Add "customer_id", "12345"
+    '   params.Add "customer_type_id", "I"
+    '   Set result = GetJson("/customer/exists", Nothing, params)
+
+    Dim body As String
+    Dim headers As Dictionary
+
+    ' Preparar headers com Content-Type para JSON se houver body
+    Set headers = MergeHeaders(customHeaders)
+
+    If Not bodyParams Is Nothing Then
+        body = BuildJSON(bodyParams)
+        headers("Content-Type") = "application/json"
+    End If
 
     Dim response As HttpResponse
-    Set response = HttpGet(url, customHeaders)
+    Set response = HttpGet(url, headers, body)
 
     If response.IsSuccess Then
         Set GetJson = response.Json
@@ -377,7 +402,7 @@ Private Function ExecuteRequest(ByVal method As String, _
     ' Args:
     '   method (String): Método HTTP (GET, POST, PUT, DELETE, etc.)
     '   url (String): URL completa ou relativa
-    '   body (String): Corpo da requisição
+    '   body (String): Corpo da requisição (pode ser usado em qualquer método)
     '   customHeaders (Dictionary): Headers adicionais
     '
     ' Result:
@@ -400,8 +425,8 @@ Private Function ExecuteRequest(ByVal method As String, _
         .Open_ method, fullUrl, False
 
         ' Aplicar timeout se configurado
-        If config.Timeout > 0 Then
-            .SetTimeout config.Timeout
+        If config.timeout > 0 Then
+            .SetTimeout config.timeout
         End If
 
         ' Aplicar headers
@@ -409,7 +434,8 @@ Private Function ExecuteRequest(ByVal method As String, _
             .SetRequestHeader CStr(key), CStr(headers(key))
         Next key
 
-        ' Enviar requisição
+        ' Enviar requisição com body se fornecido
+        ' Nota: Algumas APIs (como TomTicket) esperam JSON no body mesmo para GET
         If Len(body) > 0 Then
             .Send body
         Else
@@ -436,14 +462,14 @@ Private Function BuildFullUrl(ByVal url As String) As String
     If Left(url, 4) = "http" Then
         ' URL já é completa
         BuildFullUrl = url
-    ElseIf Len(config.BaseUrl) > 0 Then
+    ElseIf Len(config.baseUrl) > 0 Then
         ' Combinar com baseUrl
-        If Right(config.BaseUrl, 1) = "/" And Left(url, 1) = "/" Then
-            BuildFullUrl = config.BaseUrl & Mid(url, 2)
-        ElseIf Right(config.BaseUrl, 1) <> "/" And Left(url, 1) <> "/" Then
-            BuildFullUrl = config.BaseUrl & "/" & url
+        If Right(config.baseUrl, 1) = "/" And Left(url, 1) = "/" Then
+            BuildFullUrl = config.baseUrl & Mid(url, 2)
+        ElseIf Right(config.baseUrl, 1) <> "/" And Left(url, 1) <> "/" Then
+            BuildFullUrl = config.baseUrl & "/" & url
         Else
-            BuildFullUrl = config.BaseUrl & url
+            BuildFullUrl = config.baseUrl & url
         End If
     Else
         ' URL relativa sem baseUrl
@@ -657,10 +683,11 @@ Public Sub ExampleUsage()
 
     Debug.Print "Status: " & response.StatusCode & " " & response.StatusText
     Debug.Print "Content-Type: " & response.GetHeader("Content-Type")
-    Debug.Print "Dados: " & response.Text
+    Debug.Print "Dados: " & response.text
 
     Exit Sub
 
 ErrorHandler:
     Debug.Print "Erro: " & Err.Description
 End Sub
+

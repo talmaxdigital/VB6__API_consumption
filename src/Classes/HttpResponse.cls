@@ -28,11 +28,11 @@ Public Sub Initialize(ByVal xmlHttp As Object)
     '
     ' Args:
     '   xmlHttp (Object): Objeto XMLHTTP com a resposta
-    
+
     m_StatusCode = xmlHttp.status
     m_StatusText = xmlHttp.statusText
     m_ResponseText = xmlHttp.responseText
-    
+
     Set m_ResponseHeaders = CreateJSONObject()
     ParseResponseHeaders xmlHttp.getAllResponseHeaders()
 End Sub
@@ -62,13 +62,13 @@ Public Property Get Json() As Object
     '
     ' Result:
     '   Object: Dictionary ou Collection com dados JSON parseados
-    
+
     If m_JsonData Is Nothing Then
         If Len(m_ResponseText) > 0 Then
             Set m_JsonData = ParseJSON(m_ResponseText)
         End If
     End If
-    
+
     Set Json = m_JsonData
 End Property
 
@@ -80,7 +80,7 @@ Public Function GetHeader(ByVal headerName As String) As String
     '
     ' Result:
     '   String: Valor do header ou string vazia se não encontrado
-    
+
     If m_ResponseHeaders.Exists(headerName) Then
         GetHeader = m_ResponseHeaders(headerName)
     Else
@@ -93,22 +93,22 @@ Private Sub ParseResponseHeaders(ByVal headersText As String)
     '
     ' Args:
     '   headersText (String): Texto com todos os headers
-    
+
     Dim lines As Variant
     Dim i As Integer
     Dim colonPos As Integer
     Dim headerName As String
     Dim headerValue As String
-    
+
     lines = Split(headersText, vbCrLf)
-    
+
     For i = 0 To UBound(lines)
         If Len(Trim(lines(i))) > 0 Then
             colonPos = InStr(lines(i), ":")
             If colonPos > 0 Then
                 headerName = Trim(Left(lines(i), colonPos - 1))
                 headerValue = Trim(Mid(lines(i), colonPos + 1))
-                
+
                 If Not m_ResponseHeaders.Exists(headerName) Then
                     m_ResponseHeaders.Add headerName, headerValue
                 End If

@@ -33,7 +33,7 @@ Public Sub Open_(ByVal method As String, ByVal url As String, Optional ByVal asy
     '   method (String): Método HTTP (GET, POST, PUT, DELETE, etc.)
     '   url (String): URL completa da requisição
     '   async (Boolean): Se True, requisição assíncrona (padrão: False)
-    
+
     m_XmlHttp.Open method, url, async
 End Sub
 
@@ -43,7 +43,7 @@ Public Sub SetRequestHeader(ByVal headerName As String, ByVal headerValue As Str
     ' Args:
     '   headerName (String): Nome do header
     '   headerValue (String): Valor do header
-    
+
     m_XmlHttp.setRequestHeader headerName, headerValue
 End Sub
 
@@ -52,13 +52,13 @@ Public Sub Send(Optional ByVal body As Variant)
     '
     ' Args:
     '   body (Variant): Corpo da requisição (opcional)
-    
+
     If IsMissing(body) Then
         m_XmlHttp.send
     Else
         m_XmlHttp.send body
     End If
-    
+
     ' Aguardar resposta se síncrono
     Do While m_XmlHttp.readyState <> 4
         DoEvents
@@ -70,7 +70,7 @@ Public Sub SetTimeout(ByVal timeoutMs As Long)
     '
     ' Args:
     '   timeoutMs (Long): Timeout em milissegundos
-    
+
     m_Timeout = timeoutMs
     ' Note: XMLHTTP pode não suportar timeout diretamente
     ' Implementação pode variar conforme a versão

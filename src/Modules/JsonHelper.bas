@@ -7,7 +7,7 @@ Option Explicit
 ' ====================================================================
 
 Private Type JSONSTATE
-    json As String
+    Json As String
     position As Long
 End Type
 
@@ -40,12 +40,12 @@ Public Function ParseJSON(ByVal jsonString As String) As Object
     '   Set array = ParseJSON("[""item1"",""item2"",123]")
     '   Debug.Print array(1) ' Output: item1
 
-    state.json = jsonString
+    state.Json = jsonString
     state.position = 1
 
     SkipWhitespace
 
-    Select Case Mid(state.json, state.position, 1)
+    Select Case Mid(state.Json, state.position, 1)
         Case "{"
             Set ParseJSON = ParseObject
         Case "["
@@ -167,6 +167,8 @@ Private Function BuildValue(ByVal value As Variant) As String
         BuildValue = "null"
     ElseIf VarType(value) = vbBoolean Then
         BuildValue = BuildBoolean(value)
+    ElseIf VarType(value) = vbString Then
+        BuildValue = BuildString(CStr(value))
     ElseIf IsNumeric(value) Then
         BuildValue = BuildNumber(value)
     Else
@@ -246,14 +248,14 @@ Private Function BuildString(ByVal str As String) As String
 
     Dim result As String
     Dim i As Integer
-    Dim char As String
+    Dim Char As String
 
-    result = """")
+    result = """"
 
     For i = 1 To Len(str)
-        char = Mid(str, i, 1)
+        Char = Mid(str, i, 1)
 
-        Select Case char
+        Select Case Char
             Case """":
                 result = result & "\""":
             Case "\":
@@ -271,15 +273,15 @@ Private Function BuildString(ByVal str As String) As String
             Case vbTab:
                 result = result & "\t":
             Case Else:
-                If Asc(char) < 32 Then
-                    result = result & "\u" & Right("0000" & Hex(Asc(char)), 4)
+                If Asc(Char) < 32 Then
+                    result = result & "\u" & Right("0000" & Hex(Asc(Char)), 4)
                 Else
-                    result = result & char
+                    result = result & Char
                 End If
         End Select
     Next i
 
-    result = result & """":
+    result = result & """"
     BuildString = result
 End Function
 
@@ -339,20 +341,20 @@ Private Function ParseObject() As Dictionary
     Do
         SkipWhitespace
 
-        If Mid(state.json, state.position, 1) = "}" Then
+        If Mid(state.Json, state.position, 1) = "}" Then
             state.position = state.position + 1
             Set ParseObject = dict
             Exit Function
         End If
 
-        If Mid(state.json, state.position, 1) <> """" Then
+        If Mid(state.Json, state.position, 1) <> """" Then
             Err.Raise vbObjectError + 2, "ParseObject", "Nome de propriedade esperado (string)"
         End If
         key = ParseString
 
         SkipWhitespace
 
-        If Mid(state.json, state.position, 1) <> ":" Then
+        If Mid(state.Json, state.position, 1) <> ":" Then
             Err.Raise vbObjectError + 3, "ParseObject", "Dois pontos ':' esperados após nome da propriedade"
         End If
         state.position = state.position + 1
@@ -361,7 +363,7 @@ Private Function ParseObject() As Dictionary
 
         SkipWhitespace
 
-        Select Case Mid(state.json, state.position, 1)
+        Select Case Mid(state.Json, state.position, 1)
             Case "}"
                 state.position = state.position + 1
                 Set ParseObject = dict
@@ -390,7 +392,7 @@ Private Function ParseArray() As Collection
     Do
         SkipWhitespace
 
-        If Mid(state.json, state.position, 1) = "]" Then
+        If Mid(state.Json, state.position, 1) = "]" Then
             state.position = state.position + 1
             Set ParseArray = arr
             Exit Function
@@ -400,7 +402,7 @@ Private Function ParseArray() As Collection
 
         SkipWhitespace
 
-        Select Case Mid(state.json, state.position, 1)
+        Select Case Mid(state.Json, state.position, 1)
             Case "]"
                 state.position = state.position + 1
                 Set ParseArray = arr
@@ -424,7 +426,7 @@ Private Function ParseValue() As Variant
 
     SkipWhitespace
 
-    Select Case Mid(state.json, state.position, 1)
+    Select Case Mid(state.Json, state.position, 1)
         Case "{":
             Set ParseValue = ParseObject
         Case "[":
@@ -439,7 +441,7 @@ Private Function ParseValue() As Variant
             ParseValue = ParseNull
         Case "-", "0" To "9":
             ParseValue = ParseNumber
-        Case Else
+        Case Else:
             Err.Raise vbObjectError + 6, "ParseValue", "Valor JSON inválido na posição " & state.position
     End Select
 End Function
@@ -458,25 +460,25 @@ Private Function ParseString() As String
     '   vbObjectError + 8: String não terminada (falta aspas de fechamento)
 
     Dim result As String
-    Dim char As String
+    Dim Char As String
 
     state.position = state.position + 1 ' Skip opening quote
 
-    Do While state.position <= Len(state.json)
-        char = Mid(state.json, state.position, 1)
+    Do While state.position <= Len(state.Json)
+        Char = Mid(state.Json, state.position, 1)
 
-        Select Case char
+        Select Case Char
             Case """":
                 state.position = state.position + 1
                 ParseString = result
                 Exit Function
             Case "\":
                 state.position = state.position + 1
-                char = Mid(state.json, state.position, 1)
+                Char = Mid(state.Json, state.position, 1)
 
-                Select Case char
+                Select Case Char
                     Case """", "\", "/":
-                        result = result & char
+                        result = result & Char
                     Case "b":
                         result = result & vbBack
                     Case "f":
@@ -489,14 +491,14 @@ Private Function ParseString() As String
                         result = result & vbTab
                     Case "u":
                         Dim hexCode As String
-                        hexCode = Mid(state.json, state.position + 1, 4)
+                        hexCode = Mid(state.Json, state.position + 1, 4)
                         result = result & ChrW$(CLng("&H" & hexCode))
                         state.position = state.position + 4
                     Case Else
-                        Err.Raise vbObjectError + 7, "ParseString", "Sequência de escape inválida: \" & char
+                        Err.Raise vbObjectError + 7, "ParseString", "Sequência de escape inválida: \" & Char
                 End Select
             Case Else
-                result = result & char
+                result = result & Char
         End Select
 
         state.position = state.position + 1
@@ -517,13 +519,13 @@ Private Function ParseNumber() As Variant
     '   Científicos: 1.23e10, -4.56E-7
 
     Dim numStr As String
-    Dim char As String
+    Dim Char As String
 
-    Do While state.position <= Len(state.json)
-        char = Mid(state.json, state.position, 1)
+    Do While state.position <= Len(state.Json)
+        Char = Mid(state.Json, state.position, 1)
 
-        If InStr("0123456789+-.eE", char) > 0 Then
-            numStr = numStr & char
+        If InStr("0123456789+-.eE", Char) > 0 Then
+            numStr = numStr & Char
             state.position = state.position + 1
         Else
             Exit Do
@@ -548,7 +550,7 @@ Private Function ParseTrue() As Boolean
     ' Raises:
     '   vbObjectError + 9: Literal "true" esperado
 
-    If Mid(state.json, state.position, 4) = "true" Then
+    If Mid(state.Json, state.position, 4) = "true" Then
         state.position = state.position + 4
         ParseTrue = True
     Else
@@ -565,7 +567,7 @@ Private Function ParseFalse() As Boolean
     ' Raises:
     '   vbObjectError + 10: Literal "false" esperado
 
-    If Mid(state.json, state.position, 5) = "false" Then
+    If Mid(state.Json, state.position, 5) = "false" Then
         state.position = state.position + 5
         ParseFalse = False
     Else
@@ -582,7 +584,7 @@ Private Function ParseNull() As Variant
     ' Raises:
     '   vbObjectError + 11: Literal "null" esperado
 
-    If Mid(state.json, state.position, 4) = "null" Then
+    If Mid(state.Json, state.position, 4) = "null" Then
         state.position = state.position + 4
         ParseNull = Null
     Else
@@ -596,15 +598,16 @@ Private Sub SkipWhitespace()
     ' Advances position until a non-whitespace character is found
     ' Whitespace characters: space, tab, carriage return, line feed
 
-    Dim char As String
+    Dim Char As String
 
-    Do While state.position <= Len(state.json)
-        char = Mid(state.json, state.position, 1)
+    Do While state.position <= Len(state.Json)
+        Char = Mid(state.Json, state.position, 1)
 
-        If char = " " Or char = vbTab Or char = vbCr Or char = vbLf Then
+        If Char = " " Or Char = vbTab Or Char = vbCr Or Char = vbLf Then
             state.position = state.position + 1
         Else
             Exit Do
         End If
     Loop
 End Sub
+
