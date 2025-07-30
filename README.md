@@ -7,9 +7,8 @@
 Sistema completo para consumo de APIs REST em Visual Basic 6.0 com suporte nativo a JSON.
 
 [![Version](https://img.shields.io/badge/version-1.0.2-blue?style=flat-square)](CHANGELOG.md)
-[![Status](https://img.shields.io/badge/status-Stable-brightgreen?style=flat-square)](#)
 [![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-blueviolet?style=flat-square)](docs\README.md)
+[![Documentation](https://img.shields.io/badge/docs-available-blueviolet?style=flat-square)](docs)
 
 **Tecnologias Utilizadas:**
 
@@ -91,7 +90,7 @@ O **VB6 API Consumption** é uma biblioteca para integração de APIs REST em ap
 
 ## 📖 Documentação
 
-A documentação completa do projeto está disponível em [docs](docs\README.md).
+A documentação completa do projeto está disponível em [docs](docs).
 
 ## 🗺️ Roadmap
 
