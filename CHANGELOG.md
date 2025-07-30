@@ -5,6 +5,16 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.0.2] - 2025-07-30
+
+### Adicionado
+
+- Documentação técnica completa com 9 guias especializados
+
+### Melhorado
+
+- README: Reorganização com foco na documentação técnica
+
 ## [1.0.1] - 2025-07-28
 
 ### Modificado
