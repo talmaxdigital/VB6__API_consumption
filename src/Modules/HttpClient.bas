@@ -17,18 +17,18 @@ End Type
 Private config As HTTP_CONFIG
 
 ' ====================================================================
-' CONFIGURA√á√ÉO E INICIALIZA√á√ÉO
+' CONFIGURA«√O E INICIALIZA«√O
 ' ====================================================================
 
 Public Sub InitializeHttpClient(Optional ByVal baseUrl As String = "", _
                                Optional ByVal timeout As Long = 30000, _
                                Optional ByVal userAgent As String = "VB6-HttpClient/1.0")
-    ' Inicializa o cliente HTTP com configura√ß√µes padr√£o
+    ' Inicializa o cliente HTTP com configuraÁıes padr„o
     '
     ' Args:
-    '   baseUrl (String): URL base para todas as requisi√ß√µes
-    '   timeout (Long): Timeout em milissegundos (padr√£o: 30000)
-    '   userAgent (String): User-Agent para as requisi√ß√µes
+    '   baseUrl (String): URL base para todas as requisiÁıes
+    '   timeout (Long): Timeout em milissegundos (padr„o: 30000)
+    '   userAgent (String): User-Agent para as requisiÁıes
     '
     ' Example:
     '   InitializeHttpClient "https://api.github.com", 10000, "MeuApp/1.0"
@@ -45,7 +45,7 @@ Public Sub InitializeHttpClient(Optional ByVal baseUrl As String = "", _
 End Sub
 
 Public Sub SetDefaultHeader(ByVal headerName As String, ByVal headerValue As String)
-    ' Define um header padr√£o que ser√° enviado em todas as requisi√ß√µes
+    ' Define um header padr„o que ser· enviado em todas as requisiÁıes
     '
     ' Args:
     '   headerName (String): Nome do header
@@ -67,7 +67,7 @@ Public Sub SetDefaultHeader(ByVal headerName As String, ByVal headerValue As Str
 End Sub
 
 Public Sub RemoveDefaultHeader(ByVal headerName As String)
-    ' Remove um header padr√£o
+    ' Remove um header padr„o
     '
     ' Args:
     '   headerName (String): Nome do header a ser removido
@@ -83,18 +83,18 @@ Public Sub RemoveDefaultHeader(ByVal headerName As String)
 End Sub
 
 ' ====================================================================
-' M√âTODOS HTTP S√çNCRONOS
+' M…TODOS HTTP SÕNCRONOS
 ' ====================================================================
 
 Public Function HttpGet(ByVal url As String, _
                        Optional ByVal customHeaders As Dictionary = Nothing, _
                        Optional ByVal body As String = "") As HttpResponse
-    ' Executa uma requisi√ß√£o GET s√≠ncrona
+    ' Executa uma requisiÁ„o GET sÌncrona
     '
     ' Args:
     '   url (String): URL completa ou relativa (se baseUrl configurada)
-    '   customHeaders (Dictionary): Headers adicionais para esta requisi√ß√£o
-    '   body (String): Corpo da requisi√ß√£o (opcional, usado por algumas APIs)
+    '   customHeaders (Dictionary): Headers adicionais para esta requisiÁ„o
+    '   body (String): Corpo da requisiÁ„o (opcional, usado por algumas APIs)
     '
     ' Result:
     '   HttpResponse: Objeto contendo status, headers e body da resposta
@@ -116,11 +116,11 @@ End Function
 Public Function HttpPost(ByVal url As String, _
                         ByVal body As String, _
                         Optional ByVal customHeaders As Dictionary = Nothing) As HttpResponse
-    ' Executa uma requisi√ß√£o POST s√≠ncrona
+    ' Executa uma requisiÁ„o POST sÌncrona
     '
     ' Args:
     '   url (String): URL completa ou relativa
-    '   body (String): Corpo da requisi√ß√£o (JSON, XML, form data, etc.)
+    '   body (String): Corpo da requisiÁ„o (JSON, XML, form data, etc.)
     '   customHeaders (Dictionary): Headers adicionais
     '
     ' Result:
@@ -129,7 +129,7 @@ Public Function HttpPost(ByVal url As String, _
     ' Example:
     '   Dim userData As Dictionary
     '   Set userData = CreateJSONObject()
-    '   userData.Add "name", "Jo√£o"
+    '   userData.Add "name", "Jo„o"
     '   userData.Add "email", "joao@email.com"
     '
     '   Dim response As HttpResponse
@@ -141,11 +141,11 @@ End Function
 Public Function HttpPut(ByVal url As String, _
                        ByVal body As String, _
                        Optional ByVal customHeaders As Dictionary = Nothing) As HttpResponse
-    ' Executa uma requisi√ß√£o PUT s√≠ncrona
+    ' Executa uma requisiÁ„o PUT sÌncrona
     '
     ' Args:
     '   url (String): URL completa ou relativa
-    '   body (String): Corpo da requisi√ß√£o
+    '   body (String): Corpo da requisiÁ„o
     '   customHeaders (Dictionary): Headers adicionais
     '
     ' Result:
@@ -156,7 +156,7 @@ End Function
 
 Public Function HttpDelete(ByVal url As String, _
                           Optional ByVal customHeaders As Dictionary = Nothing) As HttpResponse
-    ' Executa uma requisi√ß√£o DELETE s√≠ncrona
+    ' Executa uma requisiÁ„o DELETE sÌncrona
     '
     ' Args:
     '   url (String): URL completa ou relativa
@@ -171,11 +171,11 @@ End Function
 Public Function HttpPatch(ByVal url As String, _
                          ByVal body As String, _
                          Optional ByVal customHeaders As Dictionary = Nothing) As HttpResponse
-    ' Executa uma requisi√ß√£o PATCH s√≠ncrona
+    ' Executa uma requisiÁ„o PATCH sÌncrona
     '
     ' Args:
     '   url (String): URL completa ou relativa
-    '   body (String): Corpo da requisi√ß√£o
+    '   body (String): Corpo da requisiÁ„o
     '   customHeaders (Dictionary): Headers adicionais
     '
     ' Result:
@@ -185,7 +185,7 @@ Public Function HttpPatch(ByVal url As String, _
 End Function
 
 ' ====================================================================
-' M√âTODOS ESPECIALIZADOS PARA JSON
+' M…TODOS ESPECIALIZADOS PARA JSON
 ' ====================================================================
 
 Public Function GetJson(ByVal url As String, _
@@ -196,7 +196,7 @@ Public Function GetJson(ByVal url As String, _
     ' Args:
     '   url (String): URL da API
     '   customHeaders (Dictionary): Headers adicionais
-    '   bodyParams (Dictionary): Par√¢metros a serem enviados no body como JSON
+    '   bodyParams (Dictionary): Par‚metros a serem enviados no body como JSON
     '
     ' Result:
     '   Object: Dictionary ou Collection com dados JSON parseados
@@ -205,7 +205,7 @@ Public Function GetJson(ByVal url As String, _
     '   ' GET simples
     '   Set user = GetJson("https://api.github.com/users/octocat")
     '
-    '   ' GET com par√¢metros no body (TomTicket style)
+    '   ' GET com par‚metros no body (TomTicket style)
     '   Dim params As Dictionary
     '   Set params = CreateJSONObject()
     '   params.Add "customer_id", "12345"
@@ -297,7 +297,7 @@ Public Function PutJson(ByVal url As String, _
 End Function
 
 ' ====================================================================
-' M√âTODOS PARA UPLOAD/DOWNLOAD DE ARQUIVOS
+' M…TODOS PARA UPLOAD/DOWNLOAD DE ARQUIVOS
 ' ====================================================================
 
 Public Function DownloadFile(ByVal url As String, _
@@ -315,7 +315,7 @@ Public Function DownloadFile(ByVal url As String, _
     '
     ' Example:
     '   If DownloadFile("https://exemplo.com/arquivo.pdf", "C:\temp\arquivo.pdf") Then
-    '       Debug.Print "Download conclu√≠do!"
+    '       Debug.Print "Download concluÌdo!"
     '   End If
 
     Dim downloader As New cHttpDownload
@@ -326,15 +326,15 @@ Public Function DownloadFile(ByVal url As String, _
     ' Aplicar headers customizados se fornecidos
     If Not customHeaders Is Nothing Then
         For Each key In customHeaders.Keys
-            ' Note: cHttpDownload pode ter limita√ß√µes para headers customizados
-            ' Implementar conforme a interface dispon√≠vel
+            ' Note: cHttpDownload pode ter limitaÁıes para headers customizados
+            ' Implementar conforme a interface disponÌvel
         Next key
     End If
 
     downloader.BeginDownload url, localPath
 
-    ' Aguardar conclus√£o (implementa√ß√£o pode variar conforme a classe)
-    ' Esta √© uma implementa√ß√£o simplificada
+    ' Aguardar conclus„o (implementaÁ„o pode variar conforme a classe)
+    ' Esta È uma implementaÁ„o simplificada
 
     DownloadFile = True
     Exit Function
@@ -352,7 +352,7 @@ Public Function UploadFile(ByVal url As String, _
     ' Args:
     '   url (String): URL de destino
     '   filePath (String): Caminho do arquivo local
-    '   fieldName (String): Nome do campo no formul√°rio
+    '   fieldName (String): Nome do campo no formul·rio
     '   customHeaders (Dictionary): Headers adicionais
     '
     ' Result:
@@ -376,10 +376,10 @@ End Function
 ' ====================================================================
 
 Public Function CreateHttpResponse(ByVal request As cHttpRequest) As HttpResponse
-    ' Cria um objeto HttpResponse a partir da requisi√ß√£o executada
+    ' Cria um objeto HttpResponse a partir da requisiÁ„o executada
     '
     ' Args:
-    '   request (cHttpRequest): Objeto de requisi√ß√£o j√° executada
+    '   request (cHttpRequest): Objeto de requisiÁ„o j· executada
     '
     ' Result:
     '   HttpResponse: Objeto wrapper com propriedades convenientes
@@ -390,19 +390,19 @@ Public Function CreateHttpResponse(ByVal request As cHttpRequest) As HttpRespons
 End Function
 
 ' ====================================================================
-' FUN√á√ïES AUXILIARES PRIVADAS
+' FUN«’ES AUXILIARES PRIVADAS
 ' ====================================================================
 
 Private Function ExecuteRequest(ByVal method As String, _
                                ByVal url As String, _
                                ByVal body As String, _
                                Optional ByVal customHeaders As Dictionary = Nothing) As HttpResponse
-    ' Executa uma requisi√ß√£o HTTP gen√©rica
+    ' Executa uma requisiÁ„o HTTP genÈrica
     '
     ' Args:
-    '   method (String): M√©todo HTTP (GET, POST, PUT, DELETE, etc.)
+    '   method (String): MÈtodo HTTP (GET, POST, PUT, DELETE, etc.)
     '   url (String): URL completa ou relativa
-    '   body (String): Corpo da requisi√ß√£o (pode ser usado em qualquer m√©todo)
+    '   body (String): Corpo da requisiÁ„o (pode ser usado em qualquer mÈtodo)
     '   customHeaders (Dictionary): Headers adicionais
     '
     ' Result:
@@ -416,7 +416,7 @@ Private Function ExecuteRequest(ByVal method As String, _
     ' Construir URL completa
     fullUrl = BuildFullUrl(url)
 
-    ' Mesclar headers padr√£o com customizados
+    ' Mesclar headers padr„o com customizados
     Set headers = MergeHeaders(customHeaders)
 
     On Error GoTo ErrorHandler
@@ -434,7 +434,7 @@ Private Function ExecuteRequest(ByVal method As String, _
             .SetRequestHeader CStr(key), CStr(headers(key))
         Next key
 
-        ' Enviar requisi√ß√£o com body se fornecido
+        ' Enviar requisiÁ„o com body se fornecido
         ' Nota: Algumas APIs (como TomTicket) esperam JSON no body mesmo para GET
         If Len(body) > 0 Then
             .Send body
@@ -447,11 +447,11 @@ Private Function ExecuteRequest(ByVal method As String, _
     Exit Function
 
 ErrorHandler:
-    Err.Raise Err.Number, "ExecuteRequest", "Erro na requisi√ß√£o HTTP: " & Err.Description
+    Err.Raise Err.Number, "ExecuteRequest", "Erro na requisiÁ„o HTTP: " & Err.Description
 End Function
 
 Private Function BuildFullUrl(ByVal url As String) As String
-    ' Constr√≥i a URL completa combinando baseUrl com URL relativa
+    ' ConstrÛi a URL completa combinando baseUrl com URL relativa
     '
     ' Args:
     '   url (String): URL que pode ser completa ou relativa
@@ -460,7 +460,7 @@ Private Function BuildFullUrl(ByVal url As String) As String
     '   String: URL completa
 
     If Left(url, 4) = "http" Then
-        ' URL j√° √© completa
+        ' URL j· È completa
         BuildFullUrl = url
     ElseIf Len(config.baseUrl) > 0 Then
         ' Combinar com baseUrl
@@ -478,7 +478,7 @@ Private Function BuildFullUrl(ByVal url As String) As String
 End Function
 
 Private Function MergeHeaders(Optional ByVal customHeaders As Dictionary = Nothing) As Dictionary
-    ' Mescla headers padr√£o com headers customizados
+    ' Mescla headers padr„o com headers customizados
     '
     ' Args:
     '   customHeaders (Dictionary): Headers customizados (opcional)
@@ -490,7 +490,7 @@ Private Function MergeHeaders(Optional ByVal customHeaders As Dictionary = Nothi
 
     Set MergeHeaders = CreateJSONObject()
 
-    ' Copiar headers padr√£o
+    ' Copiar headers padr„o
     If Not config.DefaultHeaders Is Nothing Then
         For Each key In config.DefaultHeaders.Keys
             MergeHeaders.Add key, config.DefaultHeaders(key)
@@ -513,7 +513,7 @@ End Function
 Private Function BuildMultipartBody(ByVal filePath As String, _
                                    ByVal fieldName As String, _
                                    ByVal boundary As String) As String
-    ' Constr√≥i o corpo de uma requisi√ß√£o multipart/form-data
+    ' ConstrÛi o corpo de uma requisiÁ„o multipart/form-data
     '
     ' Args:
     '   filePath (String): Caminho do arquivo
@@ -521,7 +521,7 @@ Private Function BuildMultipartBody(ByVal filePath As String, _
     '   boundary (String): Boundary string
     '
     ' Result:
-    '   String: Corpo da requisi√ß√£o formatado
+    '   String: Corpo da requisiÁ„o formatado
 
     Dim fileName As String
     Dim fileContent As String
@@ -530,7 +530,7 @@ Private Function BuildMultipartBody(ByVal filePath As String, _
     ' Extrair nome do arquivo
     fileName = Mid(filePath, InStrRev(filePath, "\") + 1)
 
-    ' Ler conte√∫do do arquivo (implementa√ß√£o simplificada)
+    ' Ler conte˙do do arquivo (implementaÁ„o simplificada)
     On Error GoTo ErrorHandler
 
     Dim fileNum As Integer
@@ -555,7 +555,7 @@ ErrorHandler:
 End Function
 
 ' ====================================================================
-' UTILIT√ÅRIOS P√öBLICOS
+' UTILIT¡RIOS P⁄BLICOS
 ' ====================================================================
 
 Public Function UrlEncode(ByVal text As String) As String
@@ -568,7 +568,7 @@ Public Function UrlEncode(ByVal text As String) As String
     '   String: Texto codificado para URL
     '
     ' Example:
-    '   Debug.Print UrlEncode("Jo√£o & Maria") ' Output: Jo%C3%A3o%20%26%20Maria
+    '   Debug.Print UrlEncode("Jo„o & Maria") ' Output: Jo%C3%A3o%20%26%20Maria
 
     Dim result As String
     Dim i As Integer
@@ -593,10 +593,10 @@ Public Function UrlEncode(ByVal text As String) As String
 End Function
 
 Public Function BuildQueryString(ByVal params As Dictionary) As String
-    ' Constr√≥i uma query string a partir de um Dictionary
+    ' ConstrÛi uma query string a partir de um Dictionary
     '
     ' Args:
-    '   params (Dictionary): Par√¢metros chave-valor
+    '   params (Dictionary): Par‚metros chave-valor
     '
     ' Result:
     '   String: Query string formatada
@@ -604,7 +604,7 @@ Public Function BuildQueryString(ByVal params As Dictionary) As String
     ' Example:
     '   Dim params As Dictionary
     '   Set params = CreateJSONObject()
-    '   params.Add "name", "Jo√£o"
+    '   params.Add "name", "Jo„o"
     '   params.Add "page", "1"
     '   Debug.Print BuildQueryString(params) ' Output: name=Jo%C3%A3o&page=1
 
@@ -625,3 +625,5 @@ Public Function BuildQueryString(ByVal params As Dictionary) As String
 
     BuildQueryString = result
 End Function
+
+

@@ -30,7 +30,7 @@ Public Sub Initialize(ByVal xmlHttp As Object)
     '   xmlHttp (Object): Objeto XMLHTTP com a resposta
 
     m_StatusCode = xmlHttp.status
-    m_StatusText = xmlHttp.statusText
+    m_StatusText = xmlHttp.StatusText
     m_ResponseText = xmlHttp.responseText
 
     Set m_ResponseHeaders = CreateJSONObject()
@@ -38,7 +38,7 @@ Public Sub Initialize(ByVal xmlHttp As Object)
 End Sub
 
 Public Property Get StatusCode() As Long
-    ' CÃ³digo de status HTTP da resposta
+    ' Código de status HTTP da resposta
     StatusCode = m_StatusCode
 End Property
 
@@ -53,7 +53,7 @@ Public Property Get Text() As String
 End Property
 
 Public Property Get IsSuccess() As Boolean
-    ' Indica se a requisiÃ§Ã£o foi bem-sucedida (status 200-299)
+    ' Indica se a requisição foi bem-sucedida (status 200-299)
     IsSuccess = (m_StatusCode >= 200 And m_StatusCode <= 299)
 End Property
 
@@ -73,13 +73,13 @@ Public Property Get Json() As Object
 End Property
 
 Public Function GetHeader(ByVal headerName As String) As String
-    ' ObtÃ©m o valor de um header especÃ­fico
+    ' Obtém o valor de um header específico
     '
     ' Args:
     '   headerName (String): Nome do header
     '
     ' Result:
-    '   String: Valor do header ou string vazia se nÃ£o encontrado
+    '   String: Valor do header ou string vazia se não encontrado
 
     If m_ResponseHeaders.Exists(headerName) Then
         GetHeader = m_ResponseHeaders(headerName)

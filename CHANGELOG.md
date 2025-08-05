@@ -5,6 +5,16 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.0.3] - 2025-08-01
+
+### Adicionado
+
+- Módulo `RateLimiter` para controle de taxa de requisições
+
+### Corrigido
+
+- Suporte para especificar o encoding de arquivos via `settings.json` ("windows1252")
+
 ## [1.0.2] - 2025-07-30
 
 ### Adicionado

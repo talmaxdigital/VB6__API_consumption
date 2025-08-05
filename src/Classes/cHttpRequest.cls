@@ -23,61 +23,61 @@ Private m_Timeout As Long
 Private Sub Class_Initialize()
     ' Inicializa o objeto XMLHTTP
     Set m_XmlHttp = CreateObject("MSXML2.XMLHTTP")
-    m_Timeout = 30000 ' 30 segundos padr√£o
+    m_Timeout = 30000 ' 30 segundos padr„o
 End Sub
 
 Public Sub Open_(ByVal method As String, ByVal url As String, Optional ByVal async As Boolean = False)
-    ' Abre uma conex√£o HTTP
+    ' Abre uma conex„o HTTP
     '
     ' Args:
-    '   method (String): M√©todo HTTP (GET, POST, PUT, DELETE, etc.)
-    '   url (String): URL completa da requisi√ß√£o
-    '   async (Boolean): Se True, requisi√ß√£o ass√≠ncrona (padr√£o: False)
+    '   method (String): MÈtodo HTTP (GET, POST, PUT, DELETE, etc.)
+    '   url (String): URL completa da requisiÁ„o
+    '   async (Boolean): Se True, requisiÁ„o assÌncrona (padr„o: False)
 
     m_XmlHttp.Open method, url, async
 End Sub
 
 Public Sub SetRequestHeader(ByVal headerName As String, ByVal headerValue As String)
-    ' Define um header da requisi√ß√£o
+    ' Define um header da requisiÁ„o
     '
     ' Args:
     '   headerName (String): Nome do header
     '   headerValue (String): Valor do header
 
-    m_XmlHttp.setRequestHeader headerName, headerValue
+    m_XmlHttp.SetRequestHeader headerName, headerValue
 End Sub
 
 Public Sub Send(Optional ByVal body As Variant)
-    ' Envia a requisi√ß√£o HTTP
+    ' Envia a requisiÁ„o HTTP
     '
     ' Args:
-    '   body (Variant): Corpo da requisi√ß√£o (opcional)
+    '   body (Variant): Corpo da requisiÁ„o (opcional)
 
     If IsMissing(body) Then
-        m_XmlHttp.send
+        m_XmlHttp.Send
     Else
-        m_XmlHttp.send body
+        m_XmlHttp.Send body
     End If
 
-    ' Aguardar resposta se s√≠ncrono
+    ' Aguardar resposta se sÌncrono
     Do While m_XmlHttp.readyState <> 4
         DoEvents
     Loop
 End Sub
 
 Public Sub SetTimeout(ByVal timeoutMs As Long)
-    ' Define o timeout da requisi√ß√£o
+    ' Define o timeout da requisiÁ„o
     '
     ' Args:
     '   timeoutMs (Long): Timeout em milissegundos
 
     m_Timeout = timeoutMs
-    ' Note: XMLHTTP pode n√£o suportar timeout diretamente
-    ' Implementa√ß√£o pode variar conforme a vers√£o
+    ' Note: XMLHTTP pode n„o suportar timeout diretamente
+    ' ImplementaÁ„o pode variar conforme a vers„o
 End Sub
 
 Public Property Get status() As Long
-    ' C√≥digo de status HTTP da resposta
+    ' CÛdigo de status HTTP da resposta
     status = m_XmlHttp.status
 End Property
 
@@ -97,6 +97,6 @@ Public Function getAllResponseHeaders() As String
 End Function
 
 Public Property Get readyState() As Long
-    ' Estado atual da requisi√ß√£o
+    ' Estado atual da requisiÁ„o
     readyState = m_XmlHttp.readyState
 End Property

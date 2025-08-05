@@ -3,7 +3,7 @@ Option Explicit
 
 ' ====================================================================
 ' JsonHelper Module - Parser e Builder JSON nativo para VB6
-' Implementa√ß√£o completa de an√°lise e gera√ß√£o de JSON sem depend√™ncias
+' ImplementaÁ„o completa de an·lise e geraÁ„o de JSON sem dependÍncias
 ' ====================================================================
 
 Private Type JSONSTATE
@@ -14,25 +14,25 @@ End Type
 Private state As JSONSTATE
 
 ' ====================================================================
-' FUN√á√ïES PRINCIPAIS - PARSE E BUILD
+' FUN«’ES PRINCIPAIS - PARSE E BUILD
 ' ====================================================================
 
 Public Function ParseJSON(ByVal jsonString As String) As Object
     ' Analisa uma string JSON e retorna um objeto VB6 equivalente
     '
     ' Args:
-    '   jsonString (String): String JSON v√°lida para ser analisada
+    '   jsonString (String): String JSON v·lida para ser analisada
     '
     ' Result:
     '   Object: Dictionary para objetos JSON ou Collection para arrays JSON
     '
     ' Raises:
-    '   vbObjectError + 1: String JSON inv√°lida ou malformada
+    '   vbObjectError + 1: String JSON inv·lida ou malformada
     '
     ' Example:
     '   Dim user As Object
-    '   Set user = ParseJSON("{""nome"":""Jo√£o"",""idade"":30,""ativo"":true}")
-    '   Debug.Print user("nome")  ' Output: Jo√£o
+    '   Set user = ParseJSON("{""nome"":""Jo„o"",""idade"":30,""ativo"":true}")
+    '   Debug.Print user("nome")  ' Output: Jo„o
     '   Debug.Print user("idade") ' Output: 30
     '   Debug.Print user("ativo") ' Output: True
     '
@@ -51,35 +51,35 @@ Public Function ParseJSON(ByVal jsonString As String) As Object
         Case "["
             Set ParseJSON = ParseArray
         Case Else
-            Err.Raise vbObjectError + 1, "ParseJSON", "String JSON inv√°lida - deve come√ßar com '{' ou '['"
+            Err.Raise vbObjectError + 1, "ParseJSON", "String JSON inv·lida - deve comeÁar com '{' ou '['"
     End Select
 End Function
 
 Public Function BuildJSON(ByVal obj As Variant) As String
-    ' Constr√≥i uma string JSON a partir de um objeto VB6
+    ' ConstrÛi uma string JSON a partir de um objeto VB6
     '
     ' Args:
     '   obj (Variant): Objeto VB6 (Dictionary, Collection, ou valor primitivo)
     '
     ' Result:
-    '   String: String JSON v√°lida representando o objeto
+    '   String: String JSON v·lida representando o objeto
     '
     ' Supported Types:
     '   - Dictionary: Convertido para objeto JSON
     '   - Collection: Convertido para array JSON
     '   - String: Convertido para string JSON com escape
-    '   - Numeric: Convertido para n√∫mero JSON
+    '   - Numeric: Convertido para n˙mero JSON
     '   - Boolean: Convertido para true/false
     '   - Null: Convertido para null
     '
     ' Example:
     '   Dim user As Dictionary
     '   Set user = CreateJSONObject()
-    '   user.Add "nome", "Jo√£o"
+    '   user.Add "nome", "Jo„o"
     '   user.Add "idade", 30
     '   user.Add "ativo", True
     '   Debug.Print BuildJSON(user)
-    '   ' Output: {"nome":"Jo√£o","idade":30,"ativo":true}
+    '   ' Output: {"nome":"Jo„o","idade":30,"ativo":true}
     '
     '   Dim items As Collection
     '   Set items = CreateJSONArray()
@@ -93,7 +93,7 @@ Public Function BuildJSON(ByVal obj As Variant) As String
 End Function
 
 ' ====================================================================
-' FUN√á√ïES DE CRIA√á√ÉO DE OBJETOS JSON
+' FUN«’ES DE CRIA«√O DE OBJETOS JSON
 ' ====================================================================
 
 Public Function CreateJSONObject() As Dictionary
@@ -127,33 +127,33 @@ Public Function CreateJSONArray() As Collection
     ' Example:
     '   Dim categorias As Collection
     '   Set categorias = CreateJSONArray()
-    '   categorias.Add "Eletr√¥nicos"
-    '   categorias.Add "Inform√°tica"
-    '   categorias.Add "Acess√≥rios"
+    '   categorias.Add "EletrÙnicos"
+    '   categorias.Add "Inform·tica"
+    '   categorias.Add "AcessÛrios"
     '
     '   Dim jsonString As String
     '   jsonString = BuildJSON(categorias)
     '   Debug.Print jsonString
-    '   ' Output: ["Eletr√¥nicos","Inform√°tica","Acess√≥rios"]
+    '   ' Output: ["EletrÙnicos","Inform·tica","AcessÛrios"]
 
     Set CreateJSONArray = New Collection
 End Function
 
 ' ====================================================================
-' FUN√á√ïES AUXILIARES DE CONSTRU√á√ÉO (BUILD)
+' FUN«’ES AUXILIARES DE CONSTRU«√O (BUILD)
 ' ====================================================================
 
 Private Function BuildValue(ByVal value As Variant) As String
-    ' Constr√≥i a representa√ß√£o JSON de qualquer tipo de valor
+    ' ConstrÛi a representaÁ„o JSON de qualquer tipo de valor
     '
     ' Args:
     '   value (Variant): Valor a ser convertido (Dictionary, Collection, String, Number, Boolean, Null)
     '
     ' Result:
-    '   String: Representa√ß√£o JSON v√°lida do valor
+    '   String: RepresentaÁ„o JSON v·lida do valor
     '
     ' Raises:
-    '   vbObjectError + 20: Tipo de objeto n√£o suportado
+    '   vbObjectError + 20: Tipo de objeto n„o suportado
 
     If IsObject(value) Then
         If TypeName(value) = "Dictionary" Then
@@ -161,7 +161,7 @@ Private Function BuildValue(ByVal value As Variant) As String
         ElseIf TypeName(value) = "Collection" Then
             BuildValue = BuildArray(value)
         Else
-            Err.Raise vbObjectError + 20, "BuildValue", "Tipo de objeto n√£o suportado: " & TypeName(value)
+            Err.Raise vbObjectError + 20, "BuildValue", "Tipo de objeto n„o suportado: " & TypeName(value)
         End If
     ElseIf IsNull(value) Then
         BuildValue = "null"
@@ -177,7 +177,7 @@ Private Function BuildValue(ByVal value As Variant) As String
 End Function
 
 Private Function BuildObject(ByVal dict As Dictionary) As String
-    ' Constr√≥i um objeto JSON a partir de um Dictionary
+    ' ConstrÛi um objeto JSON a partir de um Dictionary
     '
     ' Args:
     '   dict (Dictionary): Dictionary contendo as propriedades do objeto
@@ -206,7 +206,7 @@ Private Function BuildObject(ByVal dict As Dictionary) As String
 End Function
 
 Private Function BuildArray(ByVal coll As Collection) As String
-    ' Constr√≥i um array JSON a partir de uma Collection
+    ' ConstrÛi um array JSON a partir de uma Collection
     '
     ' Args:
     '   coll (Collection): Collection contendo os elementos do array
@@ -233,7 +233,7 @@ Private Function BuildArray(ByVal coll As Collection) As String
 End Function
 
 Private Function BuildString(ByVal str As String) As String
-    ' Constr√≥i uma string JSON com escape adequado de caracteres especiais
+    ' ConstrÛi uma string JSON com escape adequado de caracteres especiais
     '
     ' Args:
     '   str (String): String a ser codificada
@@ -286,16 +286,16 @@ Private Function BuildString(ByVal str As String) As String
 End Function
 
 Private Function BuildNumber(ByVal num As Variant) As String
-    ' Constr√≥i a representa√ß√£o JSON de um n√∫mero
+    ' ConstrÛi a representaÁ„o JSON de um n˙mero
     '
     ' Args:
-    '   num (Variant): N√∫mero a ser convertido (Integer, Long, Single, Double)
+    '   num (Variant): N˙mero a ser convertido (Integer, Long, Single, Double)
     '
     ' Result:
-    '   String: Representa√ß√£o JSON do n√∫mero (formato americano com ponto decimal)
+    '   String: RepresentaÁ„o JSON do n˙mero (formato americano com ponto decimal)
 
     If VarType(num) = vbSingle Or VarType(num) = vbDouble Then
-        ' Para n√∫meros decimais, usar formato com ponto decimal (padr√£o JSON)
+        ' Para n˙meros decimais, usar formato com ponto decimal (padr„o JSON)
         BuildNumber = Replace(CStr(num), ",", ".")
     Else
         BuildNumber = CStr(num)
@@ -303,13 +303,13 @@ Private Function BuildNumber(ByVal num As Variant) As String
 End Function
 
 Private Function BuildBoolean(ByVal bool As Boolean) As String
-    ' Constr√≥i a representa√ß√£o JSON de um valor booleano
+    ' ConstrÛi a representaÁ„o JSON de um valor booleano
     '
     ' Args:
     '   bool (Boolean): Valor booleano a ser convertido
     '
     ' Result:
-    '   String: "true" ou "false" (formato JSON padr√£o)
+    '   String: "true" ou "false" (formato JSON padr„o)
 
     If bool Then
         BuildBoolean = "true"
@@ -319,7 +319,7 @@ Private Function BuildBoolean(ByVal bool As Boolean) As String
 End Function
 
 ' ====================================================================
-' FUN√á√ïES AUXILIARES DE AN√ÅLISE (PARSE)
+' FUN«’ES AUXILIARES DE AN¡LISE (PARSE)
 ' ====================================================================
 
 Private Function ParseObject() As Dictionary
@@ -331,7 +331,7 @@ Private Function ParseObject() As Dictionary
     ' Raises:
     '   vbObjectError + 2: Nome de propriedade esperado
     '   vbObjectError + 3: Dois pontos ':' esperados
-    '   vbObjectError + 4: V√≠rgula ',' ou chave de fechamento '}' esperados
+    '   vbObjectError + 4: VÌrgula ',' ou chave de fechamento '}' esperados
 
     Dim dict As New Dictionary
     Dim key As String
@@ -355,7 +355,7 @@ Private Function ParseObject() As Dictionary
         SkipWhitespace
 
         If Mid(state.Json, state.position, 1) <> ":" Then
-            Err.Raise vbObjectError + 3, "ParseObject", "Dois pontos ':' esperados ap√≥s nome da propriedade"
+            Err.Raise vbObjectError + 3, "ParseObject", "Dois pontos ':' esperados apÛs nome da propriedade"
         End If
         state.position = state.position + 1
 
@@ -371,7 +371,7 @@ Private Function ParseObject() As Dictionary
             Case ",":
                 state.position = state.position + 1
             Case Else
-                Err.Raise vbObjectError + 4, "ParseObject", "V√≠rgula ',' ou chave de fechamento '}' esperados"
+                Err.Raise vbObjectError + 4, "ParseObject", "VÌrgula ',' ou chave de fechamento '}' esperados"
         End Select
     Loop
 End Function
@@ -383,7 +383,7 @@ Private Function ParseArray() As Collection
     '   Collection: Collection contendo os elementos do array JSON
     '
     ' Raises:
-    '   vbObjectError + 5: V√≠rgula ',' ou colchete de fechamento ']' esperados
+    '   vbObjectError + 5: VÌrgula ',' ou colchete de fechamento ']' esperados
 
     Dim arr As New Collection
 
@@ -410,7 +410,7 @@ Private Function ParseArray() As Collection
             Case ",":
                 state.position = state.position + 1
             Case Else
-                Err.Raise vbObjectError + 5, "ParseArray", "V√≠rgula ',' ou colchete de fechamento ']' esperados"
+                Err.Raise vbObjectError + 5, "ParseArray", "VÌrgula ',' ou colchete de fechamento ']' esperados"
         End Select
     Loop
 End Function
@@ -422,7 +422,7 @@ Private Function ParseValue() As Variant
     '   Variant: Valor analisado que pode ser Dictionary, Collection, String, Number, Boolean ou Null
     '
     ' Raises:
-    '   vbObjectError + 6: Valor JSON inv√°lido
+    '   vbObjectError + 6: Valor JSON inv·lido
 
     SkipWhitespace
 
@@ -442,7 +442,7 @@ Private Function ParseValue() As Variant
         Case "-", "0" To "9":
             ParseValue = ParseNumber
         Case Else:
-            Err.Raise vbObjectError + 6, "ParseValue", "Valor JSON inv√°lido na posi√ß√£o " & state.position
+            Err.Raise vbObjectError + 6, "ParseValue", "Valor JSON inv·lido na posiÁ„o " & state.position
     End Select
 End Function
 
@@ -456,8 +456,8 @@ Private Function ParseString() As String
     '   \"  \\  \/  \b  \f  \n  \r  \t  \uXXXX
     '
     ' Raises:
-    '   vbObjectError + 7: Sequ√™ncia de escape inv√°lida
-    '   vbObjectError + 8: String n√£o terminada (falta aspas de fechamento)
+    '   vbObjectError + 7: SequÍncia de escape inv·lida
+    '   vbObjectError + 8: String n„o terminada (falta aspas de fechamento)
 
     Dim result As String
     Dim Char As String
@@ -495,7 +495,7 @@ Private Function ParseString() As String
                         result = result & ChrW$(CLng("&H" & hexCode))
                         state.position = state.position + 4
                     Case Else
-                        Err.Raise vbObjectError + 7, "ParseString", "Sequ√™ncia de escape inv√°lida: \" & Char
+                        Err.Raise vbObjectError + 7, "ParseString", "SequÍncia de escape inv·lida: \" & Char
                 End Select
             Case Else
                 result = result & Char
@@ -504,19 +504,19 @@ Private Function ParseString() As String
         state.position = state.position + 1
     Loop
 
-    Err.Raise vbObjectError + 8, "ParseString", "String n√£o terminada - aspas de fechamento n√£o encontradas"
+    Err.Raise vbObjectError + 8, "ParseString", "String n„o terminada - aspas de fechamento n„o encontradas"
 End Function
 
 Private Function ParseNumber() As Variant
-    ' Analisa um n√∫mero JSON e retorna Long ou Double conforme apropriado
+    ' Analisa um n˙mero JSON e retorna Long ou Double conforme apropriado
     '
     ' Result:
-    '   Variant: Long para n√∫meros inteiros ou Double para decimais/cient√≠ficos
+    '   Variant: Long para n˙meros inteiros ou Double para decimais/cientÌficos
     '
     ' Supported Formats:
     '   Inteiros: 123, -456
     '   Decimais: 123.45, -67.89
-    '   Cient√≠ficos: 1.23e10, -4.56E-7
+    '   CientÌficos: 1.23e10, -4.56E-7
 
     Dim numStr As String
     Dim Char As String
@@ -545,7 +545,7 @@ Private Function ParseTrue() As Boolean
     ' Analisa o valor literal "true" do JSON
     '
     ' Result:
-    '   Boolean: Sempre retorna True se a sequ√™ncia for v√°lida
+    '   Boolean: Sempre retorna True se a sequÍncia for v·lida
     '
     ' Raises:
     '   vbObjectError + 9: Literal "true" esperado
@@ -562,7 +562,7 @@ Private Function ParseFalse() As Boolean
     ' Analisa o valor literal "false" do JSON
     '
     ' Result:
-    '   Boolean: Sempre retorna False se a sequ√™ncia for v√°lida
+    '   Boolean: Sempre retorna False se a sequÍncia for v·lida
     '
     ' Raises:
     '   vbObjectError + 10: Literal "false" esperado
@@ -579,7 +579,7 @@ Private Function ParseNull() As Variant
     ' Analisa o valor literal "null" do JSON
     '
     ' Result:
-    '   Variant: Retorna valor Null se a sequ√™ncia for v√°lida
+    '   Variant: Retorna valor Null se a sequÍncia for v·lida
     '
     ' Raises:
     '   vbObjectError + 11: Literal "null" esperado
@@ -593,7 +593,7 @@ Private Function ParseNull() As Variant
 End Function
 
 Private Sub SkipWhitespace()
-    ' Pula caracteres de espa√ßo em branco na string JSON
+    ' Pula caracteres de espaÁo em branco na string JSON
     '
     ' Advances position until a non-whitespace character is found
     ' Whitespace characters: space, tab, carriage return, line feed
@@ -610,3 +610,5 @@ Private Sub SkipWhitespace()
         End If
     Loop
 End Sub
+
+

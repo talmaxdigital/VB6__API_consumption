@@ -6,7 +6,7 @@
 
 Sistema completo para consumo de APIs REST em Visual Basic 6.0 com suporte nativo a JSON.
 
-[![Version](https://img.shields.io/badge/version-1.0.2-blue?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.3-blue?style=flat-square)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-available-blueviolet?style=flat-square)](docs)
 
@@ -137,7 +137,7 @@ Este projeto está licenciado sob a **Licença MIT** - veja o arquivo [LICENSE](
 
 ---
 
-**Versão**: 1.0.2 | **Status**: Estável | **Última atualização**: Julho 2025
+**Versão**: 1.0.3 | **Status**: Estável | **Última atualização**: Agosto 2025
 
 </div>
 
