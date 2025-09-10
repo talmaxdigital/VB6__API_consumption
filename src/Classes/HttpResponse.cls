@@ -47,9 +47,9 @@ Public Property Get StatusText() As String
     StatusText = m_StatusText
 End Property
 
-Public Property Get Text() As String
+Public Property Get text() As String
     ' Corpo da resposta como texto
-    Text = m_ResponseText
+    text = m_ResponseText
 End Property
 
 Public Property Get IsSuccess() As Boolean

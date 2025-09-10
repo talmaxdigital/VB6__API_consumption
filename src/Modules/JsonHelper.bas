@@ -1,6 +1,8 @@
 Attribute VB_Name = "JsonHelper"
 Option Explicit
 
+Option Explicit
+
 ' ====================================================================
 ' JsonHelper Module - Parser e Builder JSON nativo para VB6
 ' Implementação completa de análise e geração de JSON sem dependências
@@ -220,7 +222,7 @@ Private Function BuildArray(ByVal coll As Collection) As String
 
     result = "["
 
-    For i = 1 To coll.Count
+    For i = 1 To coll.count
         If i > 1 Then
             result = result & ","
         End If
@@ -240,48 +242,44 @@ Private Function BuildString(ByVal str As String) As String
     '
     ' Result:
     '   String: String JSON com caracteres de escape processados e aspas delimitadoras
-    '
-    ' Escaped Characters:
-    '   " -> \"    \ -> \\    / -> \/
-    '   \b -> \b   \f -> \f   \n -> \n   \r -> \r   \t -> \t
-    '   Caracteres de controle (ASCII < 32) -> \uXXXX
 
     Dim result As String
     Dim i As Integer
-    Dim Char As String
+    Dim char As String
 
-    result = """"
+    ' CORREÇÃO: Usar aspas duplas escapadas para VB6
+    result = Chr(34) ' Equivale a "
 
     For i = 1 To Len(str)
-        Char = Mid(str, i, 1)
+        char = Mid(str, i, 1)
 
-        Select Case Char
-            Case """":
-                result = result & "\""":
+        Select Case char
+            Case Chr(34): ' Aspas duplas
+                result = result & "\" & Chr(34)
             Case "\":
-                result = result & "\\":
+                result = result & "\\"
             Case "/":
-                result = result & "\/":
+                result = result & "\/"
             Case vbBack:
-                result = result & "\b":
+                result = result & "\b"
             Case vbFormFeed:
-                result = result & "\f":
+                result = result & "\f"
             Case vbNewLine:
-                result = result & "\n":
+                result = result & "\n"
             Case vbCr:
-                result = result & "\r":
+                result = result & "\r"
             Case vbTab:
-                result = result & "\t":
+                result = result & "\t"
             Case Else:
-                If Asc(Char) < 32 Then
-                    result = result & "\u" & Right("0000" & Hex(Asc(Char)), 4)
+                If Asc(char) < 32 Then
+                    result = result & "\u" & Right("0000" & Hex(Asc(char)), 4)
                 Else
-                    result = result & Char
+                    result = result & char
                 End If
         End Select
     Next i
 
-    result = result & """"
+    result = result & Chr(34) ' Equivale a "
     BuildString = result
 End Function
 
@@ -460,25 +458,25 @@ Private Function ParseString() As String
     '   vbObjectError + 8: String não terminada (falta aspas de fechamento)
 
     Dim result As String
-    Dim Char As String
+    Dim char As String
 
     state.position = state.position + 1 ' Skip opening quote
 
     Do While state.position <= Len(state.Json)
-        Char = Mid(state.Json, state.position, 1)
+        char = Mid(state.Json, state.position, 1)
 
-        Select Case Char
+        Select Case char
             Case """":
                 state.position = state.position + 1
                 ParseString = result
                 Exit Function
             Case "\":
                 state.position = state.position + 1
-                Char = Mid(state.Json, state.position, 1)
+                char = Mid(state.Json, state.position, 1)
 
-                Select Case Char
+                Select Case char
                     Case """", "\", "/":
-                        result = result & Char
+                        result = result & char
                     Case "b":
                         result = result & vbBack
                     Case "f":
@@ -495,10 +493,10 @@ Private Function ParseString() As String
                         result = result & ChrW$(CLng("&H" & hexCode))
                         state.position = state.position + 4
                     Case Else
-                        Err.Raise vbObjectError + 7, "ParseString", "Sequência de escape inválida: \" & Char
+                        Err.Raise vbObjectError + 7, "ParseString", "Sequência de escape inválida: \" & char
                 End Select
             Case Else
-                result = result & Char
+                result = result & char
         End Select
 
         state.position = state.position + 1
@@ -519,13 +517,13 @@ Private Function ParseNumber() As Variant
     '   Científicos: 1.23e10, -4.56E-7
 
     Dim numStr As String
-    Dim Char As String
+    Dim char As String
 
     Do While state.position <= Len(state.Json)
-        Char = Mid(state.Json, state.position, 1)
+        char = Mid(state.Json, state.position, 1)
 
-        If InStr("0123456789+-.eE", Char) > 0 Then
-            numStr = numStr & Char
+        If InStr("0123456789+-.eE", char) > 0 Then
+            numStr = numStr & char
             state.position = state.position + 1
         Else
             Exit Do
@@ -598,12 +596,12 @@ Private Sub SkipWhitespace()
     ' Advances position until a non-whitespace character is found
     ' Whitespace characters: space, tab, carriage return, line feed
 
-    Dim Char As String
+    Dim char As String
 
     Do While state.position <= Len(state.Json)
-        Char = Mid(state.Json, state.position, 1)
+        char = Mid(state.Json, state.position, 1)
 
-        If Char = " " Or Char = vbTab Or Char = vbCr Or Char = vbLf Then
+        If char = " " Or char = vbTab Or char = vbCr Or char = vbLf Then
             state.position = state.position + 1
         Else
             Exit Do

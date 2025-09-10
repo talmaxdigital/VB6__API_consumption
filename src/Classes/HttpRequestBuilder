@@ -1,0 +1,175 @@
+Option Explicit
+
+Private m_baseUrl As String
+Private m_endpoint As String
+Private m_method As String
+Private m_headers As Dictionary
+Private m_queryParams As Dictionary
+Private m_body As String
+Private m_timeout As Long
+Private m_authentication As Dictionary
+
+Private Sub Class_Initialize()
+    Set m_headers = CreateObject("Scripting.Dictionary")
+    Set m_queryParams = CreateObject("Scripting.Dictionary")
+    Set m_authentication = CreateObject("Scripting.Dictionary")
+    m_timeout = 30000 ' Default 30 segundos
+    m_method = "GET"
+End Sub
+
+' Configuração da URL base
+Public Function BaseUrl(url As String) As HttpRequestBuilder
+    m_baseUrl = url
+    Set BaseUrl = Me
+End Function
+
+' Configuração do endpoint
+Public Function Endpoint(path As String) As HttpRequestBuilder
+    m_endpoint = path
+    Set Endpoint = Me
+End Function
+
+' Configuração do método HTTP
+Public Function Method(httpMethod As String) As HttpRequestBuilder
+    m_method = UCase(httpMethod)
+    Set Method = Me
+End Function
+
+' Adicionar header
+Public Function AddHeader(key As String, value As String) As HttpRequestBuilder
+    m_headers.Add key, value
+    Set AddHeader = Me
+End Function
+
+' Configurar Content-Type
+Public Function ContentType(contentType As String) As HttpRequestBuilder
+    m_headers("Content-Type") = contentType
+    Set ContentType = Me
+End Function
+
+' Configurar Accept
+Public Function Accept(acceptType As String) As HttpRequestBuilder
+    m_headers("Accept") = acceptType
+    Set Accept = Me
+End Function
+
+' Adicionar parâmetro de query
+Public Function AddQueryParam(key As String, value As String) As HttpRequestBuilder
+    m_queryParams.Add key, value
+    Set AddQueryParam = Me
+End Function
+
+' Configurar timeout
+Public Function Timeout(timeoutMs As Long) As HttpRequestBuilder
+    m_timeout = timeoutMs
+    Set Timeout = Me
+End Function
+
+' Autenticação Bearer Token
+Public Function BearerAuth(token As String) As HttpRequestBuilder
+    m_headers("Authorization") = "Bearer " & token
+    Set BearerAuth = Me
+End Function
+
+' Autenticação Basic
+Public Function BasicAuth(username As String, password As String) As HttpRequestBuilder
+    Dim credentials As String
+    credentials = EncodeBase64(username & ":" & password)
+    m_headers("Authorization") = "Basic " & credentials
+    Set BasicAuth = Me
+End Function
+
+' Configurar body da requisição
+Public Function Body(bodyContent As String) As HttpRequestBuilder
+    m_body = bodyContent
+    Set Body = Me
+End Function
+
+' Configurar body JSON
+Public Function JsonBody(jsonData As Dictionary) As HttpRequestBuilder
+    m_body = BuildJSON(jsonData)
+    m_headers("Content-Type") = "application/json"
+    Set JsonBody = Me
+End Function
+
+' Executar requisição
+Public Function Execute() As HttpResponse
+    Dim fullUrl As String
+    fullUrl = BuildFullUrl()
+
+    Dim xmlHttp As Object
+    Set xmlHttp = CreateObject("MSXML2.XMLHTTP")
+
+    ' Configurar requisição
+    xmlHttp.Open m_method, fullUrl, False
+    xmlHttp.timeout = m_timeout
+
+    ' Adicionar headers
+    Dim key As Variant
+    For Each key In m_headers.Keys
+        xmlHttp.setRequestHeader CStr(key), CStr(m_headers(key))
+    Next key
+
+    ' Enviar requisição
+    If m_method = "GET" Or m_method = "DELETE" Then
+        xmlHttp.send
+    Else
+        xmlHttp.send m_body
+    End If
+
+    ' Criar resposta
+    Set Execute = CreateHttpResponse(xmlHttp)
+End Function
+
+' Métodos de conveniência
+Public Function Get() As HttpResponse
+    m_method = "GET"
+    Set Get = Execute()
+End Function
+
+Public Function Post() As HttpResponse
+    m_method = "POST"
+    Set Post = Execute()
+End Function
+
+Public Function Put() As HttpResponse
+    m_method = "PUT"
+    Set Put = Execute()
+End Function
+
+Public Function Delete() As HttpResponse
+    m_method = "DELETE"
+    Set Delete = Execute()
+End Function
+
+' Construir URL completa
+Private Function BuildFullUrl() As String
+    Dim url As String
+    url = m_baseUrl
+
+    If Len(m_endpoint) > 0 Then
+        If Right(url, 1) <> "/" And Left(m_endpoint, 1) <> "/" Then
+            url = url & "/"
+        End If
+        url = url & m_endpoint
+    End If
+
+    If m_queryParams.Count > 0 Then
+        url = url & "?" & BuildQueryString()
+    End If
+
+    BuildFullUrl = url
+End Function
+
+' Construir query string
+Private Function BuildQueryString() As String
+    Dim queryString As String
+    Dim key As Variant
+
+    For Each key In m_queryParams.Keys
+        If Len(queryString) > 0 Then queryString = queryString & "&"
+        queryString = queryString & CStr(key) & "=" & CStr(m_queryParams(key))
+    Next key
+
+    BuildQueryString = queryString
+End Function

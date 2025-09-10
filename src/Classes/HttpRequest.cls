@@ -6,7 +6,7 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "cHttpRequest"
+Attribute VB_Name = "HttpRequest"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
@@ -14,7 +14,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 ' ====================================================================
-' cHttpRequest Class - Wrapper para XMLHTTP
+' HttpRequest Class - Wrapper para XMLHTTP
 ' ====================================================================
 
 Private m_XmlHttp As Object
@@ -47,11 +47,31 @@ Public Sub SetRequestHeader(ByVal headerName As String, ByVal headerValue As Str
     m_XmlHttp.SetRequestHeader headerName, headerValue
 End Sub
 
+Private Function GetRequestHeader(ByVal headerName As String) As String
+    ' Função auxiliar para verificar se header já foi definido
+
+    GetRequestHeader = ""
+End Function
+
 Public Sub Send(Optional ByVal body As Variant)
     ' Envia a requisição HTTP
     '
     ' Args:
     '   body (Variant): Corpo da requisição (opcional)
+
+    ' CORREÇÃO: Garantir Content-Type correto antes de enviar
+    If Not IsMissing(body) And VarType(body) = vbString Then
+        If Len(CStr(body)) > 0 Then
+            ' Verificar se é JSON pela primeira e última caractere
+            Dim bodyStr As String
+            bodyStr = CStr(body)
+            If (Left(bodyStr, 1) = "{" And Right(bodyStr, 1) = "}") Or _
+               (Left(bodyStr, 1) = "[" And Right(bodyStr, 1) = "]") Then
+                ' Garantir Content-Type para JSON
+                m_XmlHttp.SetRequestHeader "Content-Type", "application/json; charset=utf-8"
+            End If
+        End If
+    End If
 
     If IsMissing(body) Then
         m_XmlHttp.Send
@@ -79,16 +99,19 @@ End Sub
 Public Property Get status() As Long
     ' Código de status HTTP da resposta
     status = m_XmlHttp.status
+    Debug.Print "Status: " & status
 End Property
 
-Public Property Get statusText() As String
+Public Property Get StatusText() As String
     ' Texto do status HTTP da resposta
-    statusText = m_XmlHttp.statusText
+    StatusText = m_XmlHttp.StatusText
+    Debug.Print "StatusText: " & StatusText
 End Property
 
 Public Property Get responseText() As String
     ' Corpo da resposta como texto
     responseText = m_XmlHttp.responseText
+    Debug.Print "responseText: " & responseText
 End Property
 
 Public Function getAllResponseHeaders() As String

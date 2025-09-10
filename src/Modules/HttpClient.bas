@@ -1,6 +1,8 @@
 Attribute VB_Name = "HttpClient"
 Option Explicit
 
+Option Explicit
+
 ' ====================================================================
 ' HttpClient Module - Cliente HTTP/HTTPS para consumo de APIs
 ' Baseado no projeto VbAsyncSocket com suporte completo a JSON
@@ -103,7 +105,7 @@ Public Function HttpGet(ByVal url As String, _
     '   ' GET simples sem body
     '   Set response = HttpGet("https://api.github.com/users/octocat")
     '
-    '   ' GET com body JSON (usado por algumas APIs como TomTicket)
+    '   ' GET com body JSON
     '   Dim params As Dictionary
     '   Set params = CreateJSONObject()
     '   params.Add "customer_id", "12345"
@@ -205,7 +207,7 @@ Public Function GetJson(ByVal url As String, _
     '   ' GET simples
     '   Set user = GetJson("https://api.github.com/users/octocat")
     '
-    '   ' GET com parâmetros no body (TomTicket style)
+    '   ' GET com parâmetros no body
     '   Dim params As Dictionary
     '   Set params = CreateJSONObject()
     '   params.Add "customer_id", "12345"
@@ -435,7 +437,7 @@ Private Function ExecuteRequest(ByVal method As String, _
         Next key
 
         ' Enviar requisição com body se fornecido
-        ' Nota: Algumas APIs (como TomTicket) esperam JSON no body mesmo para GET
+        ' Nota: Algumas APIs esperam JSON no body mesmo para GET
         If Len(body) > 0 Then
             .Send body
         Else
@@ -447,7 +449,7 @@ Private Function ExecuteRequest(ByVal method As String, _
     Exit Function
 
 ErrorHandler:
-    Err.Raise Err.Number, "ExecuteRequest", "Erro na requisição HTTP: " & Err.Description
+    Err.Raise Err.Number, "ExecuteRequest", "Erro na requisição HTTP: " & Err.description
 End Function
 
 Private Function BuildFullUrl(ByVal url As String) As String
@@ -551,7 +553,7 @@ Private Function BuildMultipartBody(ByVal filePath As String, _
     Exit Function
 
 ErrorHandler:
-    Err.Raise vbObjectError + 300, "BuildMultipartBody", "Erro ao ler arquivo: " & Err.Description
+    Err.Raise vbObjectError + 300, "BuildMultipartBody", "Erro ao ler arquivo: " & Err.description
 End Function
 
 ' ====================================================================
@@ -625,5 +627,3 @@ Public Function BuildQueryString(ByVal params As Dictionary) As String
 
     BuildQueryString = result
 End Function
-
-

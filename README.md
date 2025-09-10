@@ -2,142 +2,125 @@
 
 <div align="center">
 
-# VB6 API Consumption
+# 🎯 VB6 API Consumption
 
-Sistema completo para consumo de APIs REST em Visual Basic 6.0 com suporte nativo a JSON.
+**Uma biblioteca moderna para consumo de APIs REST em Visual Basic 6.0, com suporte nativo a JSON e sem dependências externas complexas.**
 
-[![Version](https://img.shields.io/badge/version-1.0.3-blue?style=flat-square)](CHANGELOG.md)
-[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-available-blueviolet?style=flat-square)](docs)
-
-**Tecnologias Utilizadas:**
-
-<a href="https://docs.microsoft.com/en-us/previous-versions/visual-studio/"><img alt="VB6" src="https://img.shields.io/badge/Visual%20Basic-6.0-blue?style=flat-square&logo=microsoft&logoColor=white"></a>
-<a href="#"><img alt="JSON" src="https://img.shields.io/badge/JSON-Native-orange?style=flat-square&logo=json&logoColor=white"></a>
-<a href="#"><img alt="HTTP" src="https://img.shields.io/badge/HTTP-REST-green?style=flat-square&logo=http&logoColor=white"></a>
-<a href="#"><img alt="XML" src="https://img.shields.io/badge/XML-HTTP-red?style=flat-square&logo=xml&logoColor=white"></a>
-
-> **Versão Estável** - Sistema testado e pronto para uso em produção!
+[![Versão](https://img.shields.io/badge/version-1.0.3-blue?style=flat-square)](CHANGELOG.md)
+[![Status](https://img.shields.io/badge/status-Estável-green?style=flat-square)](#)
+[![Licença](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+[![Documentação](https://img.shields.io/badge/docs-disponível-blueviolet?style=flat-square)](docs/README.md)
 
 </div>
 
-<br>
-<hr>
+---
 
-## 📋 Tabela de Conteúdos
+## Tabela de Conteúdos
 
 - [🚀 Visão Geral](#-visão-geral)
 - [✨ Funcionalidades](#-funcionalidades)
-- [🛠️ Tecnologias](#️-tecnologias)
-- [📋 Requisitos](#-requisitos)
-- [📖 Documentação](#-documentação)
-- [🗺️ Roadmap](#️-roadmap)
-- [🤝 Contribuindo](#-contribuindo)
+- [📦 Instalação e Configuração](#-instalação-e-configuração)
+- [⚡ Guia Rápido](#-guia-rápido)
+- [📚 Documentação Completa](#-documentação-completa)
+- [🛠️ Tecnologias Utilizadas](#️-tecnologias-utilizadas)
+- [🤝 Como Contribuir](#-como-contribuir)
 - [📜 Licença](#-licença)
 
-<hr>
+---
 
 ## 🚀 Visão Geral
 
-O **VB6 API Consumption** é uma biblioteca para integração de APIs REST em aplicações Visual Basic 6.0. A solução implementa um cliente HTTP completo com suporte nativo a JSON, eliminando a necessidade de componentes externos ou bibliotecas de terceiros.
+A biblioteca **VB6 API Consumption** fornece um cliente HTTP completo e robusto para aplicações desenvolvidas em Visual Basic 6.0. Seu principal diferencial é a capacidade de manipular JSON de forma nativa, utilizando `Dictionary` e `Collection`, sem a necessidade de instalar DLLs ou OCXs de terceiros.
 
-### Características Técnicas
+**Objetivos principais:**
 
-- **Implementação Nativa**: Utiliza apenas recursos padrão do VB6 e componentes do sistema Windows
-- **Cliente HTTP Completo**: Suporte aos métodos HTTP padrão (GET, POST, PUT, DELETE, PATCH)
-- **Parser JSON**: Engine de parsing e geração JSON implementado nativamente
-- **Arquitetura Modular**: Componentes independentes e reutilizáveis
-- **Compatibilidade**: Funciona com Windows 7+ e todas as versões do VB6
+- **Modernizar** o consumo de APIs em projetos VB6 legados.
+- **Simplificar** a integração com serviços RESTful modernos.
+- **Eliminar dependências** externas complexas para manipulação de JSON.
+
+---
 
 ## ✨ Funcionalidades
 
-### Core Features
+- **Cliente HTTP Completo**: Suporte para métodos `GET`, `POST`, `PUT`, `DELETE` e `PATCH`.
+- **Manipulação Nativa de JSON**:
+  - **Parser**: Converte strings JSON em `Dictionary` (para objetos) e `Collection` (para arrays).
+  - **Builder**: Gera strings JSON a partir de `Dictionary` e `Collection`.
+- **Classe `HttpResponse`**: Encapsula a resposta HTTP, com acesso fácil a:
+  - `StatusCode` e `StatusText`.
+  - `Headers` da resposta.
+  - `Text` (corpo da resposta como string).
+  - `Json` (corpo da resposta já convertido para `Dictionary` ou `Collection`).
+- **Classe `HttpRequest`**: Wrapper sobre `MSXML2.XMLHTTP` com configuração de timeout.
+- **Gerenciamento de Headers**: Suporte para headers padrão (enviados em todas as requisições) e customizados.
+- **Funções Auxiliares**: Utilitários para `UrlEncode`, `BuildQueryString` e construção de `multipart/form-data`.
+- **Controle de Taxa**: Módulo `RateLimiter` para limitar o número de requisições por segundo.
+- **Upload e Download**: Funções básicas para envio e recebimento de arquivos.
 
-- 🌐 **Cliente HTTP Completo** - Suporte a GET, POST, PUT, DELETE, PATCH
-- 📄 **JSON Nativo** - Parser e gerador JSON sem dependências externas
-- 🔧 **Headers Configuráveis** - Sistema completo de gerenciamento de headers
-- ⚡ **Timeout Configurável** - Controle preciso de timeouts de requisição
-- 🔐 **Suporte a Autenticação** - Bearer tokens, API keys e headers customizados
-- 🛡️ **Tratamento de Erros** - Sistema robusto de tratamento de erros HTTP
-- 📝 **URL Encoding** - Codificação automática de URLs e parâmetros
+---
 
-### Features Avançadas
+## 📦 Instalação e Configuração
 
-- 🎯 **Respostas Tipadas** - Classe HttpResponse com propriedades estruturadas
-- 🔄 **Retry Logic** - Mecanismo de retry para requisições falhadas
-- 📊 **Logging Integrado** - Sistema de logs para debug e monitoramento
-- 📚 **Documentação Completa** - Docstrings simples e completos para cada funcionalidade
+Para utilizar a biblioteca em seu projeto VB6, siga os passos abaixo:
 
-## 🛠️ Tecnologias
+1. **Adicione os Arquivos**:
+    - No menu do VB6, vá em `Project` > `Add Module` e adicione os seguintes arquivos:
+      - `src/Modules/HttpClient.bas`
+      - `src/Modules/JsonHelper.bas`
+      - `src/Modules/RateLimiter.bas`
+    - Em `Project` > `Add Class Module`, adicione:
+      - `src/Classes/HttpRequest.cls`
+      - `src/Classes/HttpResponse.cls`
 
-- **Linguagem**: Visual Basic 6.0
-- **HTTP Client**: Microsoft XML HTTP Services (XMLHTTP)
-- **JSON Processing**: Microsoft Scripting Runtime (Dictionary)
-- **Encoding**: Nativo VB6
+2. **Adicione as Referências**:
+    - Vá em `Project` > `References...` e marque a seguinte referência:
+      - `Microsoft Scripting Runtime` (para `Scripting.Dictionary`).
 
-## 📋 Requisitos
+3. **Dependências do Sistema**:
+    - A biblioteca utiliza o `MSXML2.XMLHTTP`, que já vem instalado na maioria das versões do Windows. Nenhuma instalação adicional é necessária.
 
-### Sistema Operacional
+---
 
-- Windows 7 ou superior
-- Visual Basic 6.0 IDE (para desenvolvimento)
-- VB6 Runtime (para execução)
+## 📚 Documentação Completa
 
-### Dependências Obrigatórias
+Para exemplos detalhados sobre cada funcionalidade, consulte a **[Documentação Técnica](docs/README.md)**.
 
-- **Microsoft Scripting Runtime** (scrrun.dll)
-- **Microsoft XML HTTP Services** (msxml6.dll ou msxml3.dll)
+Lá você encontrará guias sobre:
 
-## 📖 Documentação
+- Requisições `POST`, `PUT` e `DELETE`.
+- Manipulação avançada de JSON.
+- Autenticação (Bearer Token, Basic Auth).
+- Upload de arquivos.
+- E muito mais.
 
-A documentação completa do projeto está disponível em [docs](docs).
+---
 
-## 🗺️ Roadmap
+## 🛠️ Tecnologias Utilizadas
 
-### ✅ Concluído (v1.0.0)
+- **Visual Basic 6.0**: Linguagem principal.
+- **Microsoft Scripting Runtime**: Para uso do objeto `Scripting.Dictionary`.
+- **Microsoft XML (MSXML2.XMLHTTP)**: Para realizar as requisições HTTP.
 
-- [x] Cliente HTTP completo com todos os métodos
-- [x] Parser e gerador JSON nativo
-- [x] Sistema de headers configuráveis
-- [x] Tratamento de erros robusto
-- [x] Documentação completa
+---
 
-### 📅 Planejado
+## 🤝 Como Contribuir
 
-- [x] Documentação completa
-- [ ] Suite de testes automatizada
-- [ ] Upload de arquivos (multipart/form-data)
-- [ ] Suporte a cookies e sessões
-- [ ] Sistema de cache de requisições
-- [ ] Retry automático configurável
-- [ ] Logging avançado com níveis
-- [ ] Suporte a WebSockets básico
-- [ ] Compressão GZIP automática
-- [ ] Pool de conexões
-- [ ] Suporte a OAuth 2.0 completo
-- [ ] Async requests (limitado)
+Contribuições são muito bem-vindas! Para colaborar:
 
-## 🤝 Contribuindo
+- **Abra Issues**: Descreva problemas, bugs ou sugestões de melhorias.
+- **Submeta Pull Requests**: Envie suas alterações com descrições claras. Lembre-se de seguir as convenções do projeto e atualizar o `CHANGELOG.md` se necessário.
 
-Contribuições são bem-vindas! Este projeto segue as melhores práticas de desenvolvimento colaborativo.
-
-Para instruções detalhadas sobre como contribuir, incluindo o fluxo de trabalho, padrões de código e processo de revisão, consulte nosso [guia de contribuição](docs/contributing.md).
+---
 
 ## 📜 Licença
 
-Este projeto está licenciado sob a **Licença MIT** - veja o arquivo [LICENSE](LICENSE) para detalhes completos.
+Este projeto é distribuído sob a Licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
 <div align="center">
 
-**Desenvolvido pela Talmax Digital para a comunidade VB6**
-
-*"Trazendo o consumo moderno de APIs para o clássico Visual Basic 6.0"*
-
----
-
-**Versão**: 1.0.3 | **Status**: Estável | **Última atualização**: Agosto 2025
+Desenvolvido pela equipe Talmax
 
 </div>
 

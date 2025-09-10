@@ -5,6 +5,25 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.1.0] - 2025-09-10
+
+### Adicionado
+
+- **HttpRequestBuilder**: Adicionada uma nova classe `HttpRequestBuilder` que implementa o padrão Builder para uma construção de requisições HTTP mais fluente e legível.
+- **Detecção Automática de JSON**: A classe `HttpRequest` agora detecta automaticamente se o corpo da requisição é um JSON e define o header `Content-Type` como `application/json; charset=utf-8` para simplificar o envio de dados.
+
+### Corrigido
+
+- **Sincronização de Requisições**: Corrigido um bug na classe `HttpRequest` onde o código podia continuar a execução antes da resposta de uma requisição síncrona ser recebida.
+- **Codificação de Caracteres**: Corrigido o tratamento de caracteres especiais (escape) na construção de strings JSON no `JsonHelper`.
+
+### Modificado
+
+- **Renomeação de Classe**: A classe `cHttpRequest` foi renomeada para `HttpRequest` para seguir um padrão de nomenclatura mais limpo.
+- **Limpeza de Código**: Removidas referências a projetos específicos (TomTicket) dos comentários no módulo `HttpClient`.
+- **Documentação**: A documentação antiga em formato Markdown foi removida do repositório para ser substituída por uma versão mais atualizada futuramente.
+- **Estrutura do Projeto**: Atualizados os arquivos de projeto (`.vbp` e `.vbw`) para refletir as renomeações de classes e outras mudanças.
+
 ## [1.0.3] - 2025-08-01
 
 ### Adicionado
@@ -37,7 +56,7 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 
 - HttpClient: Cliente HTTP completo com suporte a GET, POST, PUT, DELETE, PATCH
 - HttpResponse: Classe para encapsular respostas HTTP com parsing automático de JSON
-- cHttpRequest: Wrapper para XMLHTTP com timeout configurável
+- HttpRequest: Wrapper para XMLHTTP com timeout configurável
 - Métodos especializados para JSON (GetJson, PostJson, PutJson)
 - Sistema de headers configuráveis (padrão e customizados)
 - Utilitários para URL encoding e query strings

@@ -1,4 +1,5 @@
-JsonHelper = 41, 3, 1440, 454, C
+HttpClient = 182, 182, 1447, 824, C
+JsonHelper = -98, 39, 1301, 490, C
+RateLimiter = 208, 208, 1473, 850, C
 HttpResponse = 130, 130, 1371, 578, C
-cHttpRequest = 43, 22, 1390, 796, C
-TomTicketAPI = 111, 12, 1248, 505,
+HttpRequest = -89, 43, 1258, 817, C
